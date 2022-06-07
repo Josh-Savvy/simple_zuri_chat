@@ -77,7 +77,7 @@ window.onload = async function () {
     .getAll();
 
   if (checkMyPrevMsgs) {
-    checkMyPrevMsgs.then((result) => {
+    checkMyPrevMsgs.then(async (result) => {
       if (result) {
         result.map((message, i) => {
           const myMsgDiv = document.createElement("div");
@@ -109,7 +109,7 @@ window.onload = async function () {
     .getAll();
 
   if (checkOtherPrevMsgs) {
-    checkOtherPrevMsgs.then((result) => {
+    checkOtherPrevMsgs.then(async (result) => {
       if (result) {
         result.map((message, i) => {
           const otherMsgDiv = document.createElement("div");
@@ -126,9 +126,7 @@ window.onload = async function () {
           );
           otherMsgDiv.innerHTML = `<span class="text-zinc-600 text-sm absolute left-2 top-1 mb-3">${message.user}</span>
                                  <span class="pt-10">${message.message} </span>
-                                 <span class="text-zinc-600 text-sm absolute right-2 bottom-1 mt-1">${message.time}</span> 
-
-  `;
+                                 <span class="text-zinc-600 text-sm absolute right-2 bottom-1 mt-1">${message.time}</span>`;
           document.querySelector("#chat-wrapper").appendChild(otherMsgDiv);
         });
       }

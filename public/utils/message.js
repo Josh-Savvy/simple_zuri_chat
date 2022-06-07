@@ -4,7 +4,7 @@ var currentDate = new Date().toLocaleString([], {
 });
 var room = document.getElementById("room");
 
-function myMessageOutput(db, message) {
+async function myMessageOutput(db, message) {
   const myMsgDiv = document.createElement("div");
   myMsgDiv.classList.add(
     "myMessage",
@@ -21,7 +21,7 @@ function myMessageOutput(db, message) {
   <span class="text-zinc-600 text-sm absolute left-2 top-1 mb-1">Me</span>
   ${message}
   <span class="text-zinc-600 text-sm absolute right-2 bottom-1 mt-1">${currentDate}</span> 
-  ` ;
+  `;
   document.querySelector("#chat-wrapper").appendChild(myMsgDiv);
   /*******
    * ***
@@ -29,7 +29,7 @@ function myMessageOutput(db, message) {
    * ****/
   var tx = db.transaction("myMessages", "readwrite");
   var store = tx.objectStore("myMessages");
-  store.put({
+  await store.put({
     message: message,
     user: "Me",
     time: currentDate,
