@@ -17,9 +17,13 @@
         <div class="fixed w-full bg-sky-700 h-16 pt-2 text-white flex justify-center shadow-md z-50"
             style="top:0px; overscroll-behavior: none;">
 
-            <div class="my-3 text-sky-700-100 font-bold text-lg">
+            <div class="my-3 text-sky-700-100 font-bold text-lg flex justify-between w-3/4">
                 <input type="text" readonly class="outline-none bg-transparent text-white font-semibold" id="room"
                     value="<%= room %>">
+
+                <div id="exitBtn"
+                    class="bg-red-500 text-white px-6 rounded flex justify-center text-center cursor-pointer">Exit</div>
+
             </div>
 
         </div>
@@ -46,6 +50,14 @@
         <script src="/utils/index.js" type="module"></script>
         <script src="/utils/message.js"></script>
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <script>
+            document.getElementById("exitBtn").addEventListener("click", () => {
+                if (confirm("Do u want to log out?")) {
+                    localStorage.removeItem("zuriUser")
+                    window.location.href = "/"
+                }
+            })
+        </script>
 </body>
 
 </html>
