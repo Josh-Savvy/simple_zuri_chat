@@ -54,7 +54,7 @@ io.on("connection", (socket) => {
       `📢 Hi ${username.toUpperCase()}, Welcome here.
       <br/>
       <br/>
- <span class="mt-2 bg-zinc-800 text-white rounded-lg px-4 py-1">Today</span>`
+ <span class="mt-2 bg-zinc-800 text-white rounded-lg px-4 py-1">New</span>`
     );
 
     socket.broadcast
@@ -77,7 +77,10 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     const user = userLeave(socket.id);
     if (user) {
-      io.to(user.room).emit("adminMessage", `📢 ${user.username} left`);
+      io.to(user.room).emit(
+        "adminMessage",
+        `📢 ${user.username.toUpperCase()} left`
+      );
       console.log("A user has disconnected");
       io.to(user.room).emit("roomUsers", {
         room: user.room,

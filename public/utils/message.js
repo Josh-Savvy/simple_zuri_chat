@@ -1,10 +1,6 @@
-var currentDate = new Date().toLocaleString([], {
-  hour: "2-digit",
-  minute: "2-digit",
-});
 var room = document.getElementById("room");
 
-async function myMessageOutput(db, message) {
+function myMessageOutput(timestamp, message) {
   const myMsgDiv = document.createElement("div");
   myMsgDiv.classList.add(
     "myMessage",
@@ -20,26 +16,12 @@ async function myMessageOutput(db, message) {
   myMsgDiv.innerHTML = ` 
   <span class="text-zinc-600 text-sm absolute left-2 top-1 mb-1">Me</span>
   ${message}
-  <span class="text-zinc-600 text-sm absolute right-2 bottom-1 mt-1">${currentDate}</span> 
+  <span class="text-zinc-600 text-sm absolute right-2 bottom-1 mt-1">${timestamp}</span> 
   `;
   document.querySelector("#chat-wrapper").appendChild(myMsgDiv);
-  /*******
-   * ***
-   * Save message to db
-   * ****/
-  var tx = db.transaction("myMessages", "readwrite");
-  var store = tx.objectStore("myMessages");
-  await store.put({
-    message: message,
-    user: "Me",
-    time: currentDate,
-    room: room.value,
-    color: "bg-blue-300",
-  });
-  tx.done;
 }
 
-function otherMessageOutput(db, username, otherMessage) {
+function otherMessageOutput(username, timestamp, otherMessage) {
   const otherMsgDiv = document.createElement("div");
   otherMsgDiv.classList.add(
     "otherMessage",
@@ -56,24 +38,8 @@ function otherMessageOutput(db, username, otherMessage) {
   <span class="text-zinc-600 text-sm absolute left-2 top-1 mb-1">${username}</span>
   
   ${otherMessage} 
-  <span class="text-zinc-600 text-sm absolute right-2 bottom-1 mt-1">${currentDate}</span> 
+  <span class="text-zinc-600 text-sm absolute right-2 bottom-1 mt-1">${timestamp}</span> 
 
   `;
   document.querySelector("#chat-wrapper").appendChild(otherMsgDiv);
-
-  /*******
-   * ***
-   * Save message to db
-   * ****/
-  var tx = db.transaction("otherMessages", "readwrite");
-  var store = tx.objectStore("otherMessages");
-
-  store.put({
-    message: otherMessage,
-    user: username,
-    time: currentDate,
-    room: room.value,
-    color: "bg-zinc-300",
-  });
-  tx.done;
 }

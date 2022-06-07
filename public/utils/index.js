@@ -1,8 +1,11 @@
-import { openDB, deleteDB } from "https://unpkg.com/idb?module";
-
 console.log("UTils loaded");
 
 var socket = io();
+
+var currentDate = new Date().toLocaleString([], {
+  hour: "2-digit",
+  minute: "2-digit",
+});
 
 window.onload = async function () {
   /**Username and room varibles */
@@ -11,25 +14,9 @@ window.onload = async function () {
   console.log(username);
   var room = document.getElementById("room").value;
 
-  /*************
-   ***********
-  Initialize DB
-   *******************************************************
-   ************/
-
-  if (!("indexedDB" in window)) {
-    console.log("This browser doesn't support IndexedDB");
-    return;
-  }
-  var dbName = username + "_chat_db";
-  var version = 1;
-
-  var db = await openDB(dbName, version, {
-    upgrade(db, oldVersion, newVersion, transaction) {
-      db.createObjectStore("myMessages", { autoIncrement: true });
-      db.createObjectStore("otherMessages", { autoIncrement: true });
-    },
-  });
+  /***
+   * ************************************F
+   */
 
   /**Socket funcs*/
 
@@ -59,7 +46,7 @@ window.onload = async function () {
   });
 
   /**
-   * Initiaze and save user data to localStorage
+   * *****************************************
    */
 
   window.localStorage.setItem(
@@ -70,84 +57,18 @@ window.onload = async function () {
   const user = JSON.parse(window.localStorage.getItem("zuriUser"));
   username = user.username;
   room = user.room;
-
   /**
    *
-   * Check previous chats
+   *
+   * *****************************************
+   *
    */
-
-  const checkMyPrevMsgs = db
-    .transaction("myMessages")
-    .objectStore("myMessages")
-    .getAll();
-
-  if (checkMyPrevMsgs) {
-    checkMyPrevMsgs.then(async (result) => {
-      if (result) {
-        result.map((message, i) => {
-          const myMsgDiv = document.createElement("div");
-          myMsgDiv.classList.add(
-            "myMessage",
-            "bg-blue-300",
-            "break-words",
-            "mx-4",
-            "my-2",
-            "py-5",
-            "px-2",
-            "rounded-lg",
-            "relative"
-          );
-          myMsgDiv.innerHTML = ` 
-          <span class="text-zinc-600 text-sm absolute left-2 top-1 mb-1">Me</span>
-          ${message.message}
-          <span class="text-zinc-600 text-sm absolute right-2 bottom-1 mt-1">${message.time}</span> 
-          `;
-          document.querySelector("#chat-wrapper").appendChild(myMsgDiv);
-        });
-      }
-    });
-  }
-
-  const checkOtherPrevMsgs = db
-    .transaction("otherMessages")
-    .objectStore("otherMessages")
-    .getAll();
-
-  if (checkOtherPrevMsgs) {
-    checkOtherPrevMsgs.then(async (result) => {
-      if (result) {
-        result.map((message, i) => {
-          const otherMsgDiv = document.createElement("div");
-          otherMsgDiv.classList.add(
-            "otherMessage",
-            "bg-zinc-300",
-            "break-words",
-            "mx-4",
-            "my-2",
-            "py-5",
-            "px-2",
-            "rounded-lg",
-            "relative"
-          );
-          otherMsgDiv.innerHTML = `<span class="text-zinc-600 text-sm absolute left-2 top-1 mb-3">${message.user}</span>
-                                 <span class="pt-10">${message.message} </span>
-                                 <span class="text-zinc-600 text-sm absolute right-2 bottom-1 mt-1">${message.time}</span>`;
-          document.querySelector("#chat-wrapper").appendChild(otherMsgDiv);
-        });
-      }
-    });
-  }
-
-  /*************
-   ***********
-   B_LOGIC
-   *******************************************************
-   ************/
 
   document.getElementById("sendBtn").addEventListener("click", () => {
     var msg = document.getElementById("typemsg");
     if (msg.value !== "") {
       const newMsgValue = msg.value.replace(/(<([^>]+)>)/gi, "🙂");
+      addMessageToDb("Me", newMsgValue);
       socket.emit("myMessage", newMsgValue);
       msg.value = "";
       msg.focus();
@@ -158,10 +79,11 @@ window.onload = async function () {
 
   socket.on("sendMyMessage", (message) => {
     const { msg } = message;
-    myMessageOutput(db, msg);
+    myMessageOutput(currentDate, msg);
   });
   socket.on("otherMessage", (message) => {
     const { username, msg } = message;
-    otherMessageOutput(db, username, msg);
+    addMessageToDb(username, msg);
+    otherMessageOutput(username, currentDate, msg);
   });
 };
