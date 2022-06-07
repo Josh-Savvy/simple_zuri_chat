@@ -75,4 +75,5 @@ io.on("connection", (socket) => {
 
 /******SOCKET IO SECTION END *******/
 
-server.listen(8000, () => console.log("Server is running on 8000"));
+const PORT = process.env.PORT || 8000;
+server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
