@@ -78,7 +78,7 @@ window.onload = async function () {
 
   if (checkMyPrevMsgs) {
     checkMyPrevMsgs.then((result) => {
-      if (result[0].room && result[0].room === room) {
+      if (result) {
         result.map((message, i) => {
           const myMsgDiv = document.createElement("div");
           myMsgDiv.classList.add(

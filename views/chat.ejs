@@ -14,21 +14,26 @@
     <input type="text" readonly hidden class="text-sky-700 outline-none" id="username" value="<%= username %>">
 
     <div style="overscroll-behavior: none;">
-        <div class="fixed w-full bg-sky-700 h-16 pt-2 text-white flex justify-center shadow-md z-50"
+        <div class="fixed w-full bg-sky-700 h-22 pt-10 text-white flex justify-center shadow-md z-50"
             style="top:0px; overscroll-behavior: none;">
 
-            <div class="my-3 text-sky-700-100 font-bold text-lg flex justify-between w-3/4">
-                <input type="text" readonly class="outline-none bg-transparent text-white font-semibold" id="room"
+            <div class="my-3 text-sky-700-100 flex justify-between w-3/4 pr-20">
+                <div class="font-semibold absolute top-2 bg-green-500 rounded  px-1 left-2">
+                    Online: <span id="roomUsers">3</span>
+                </div>
+
+                <input type="text" readonly
+                    class="ml-5 font-bold md:text-2xl outline-none bg-transparent text-white font-semibold" id="room"
                     value="<%= room %>">
 
                 <div id="exitBtn"
-                    class="bg-red-500 text-white px-6 rounded flex justify-center text-center cursor-pointer">Exit</div>
+                    class="bg-red-500 text-white px-6 rounded font-semibold flex justify-center text-center cursor-pointer">Exit</div>
 
             </div>
 
         </div>
 
-        <div id="chat-wrapper" class="mt-20 mb-16 grid grid-cols-1 md:px-32">
+        <div id="chat-wrapper" class="mt-24 mb-16 grid grid-cols-1 md:px-32">
 
 
         </div>
