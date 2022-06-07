@@ -1,11 +1,14 @@
 import { openDB, deleteDB } from "https://unpkg.com/idb?module";
 
+console.log("UTils loaded");
+
 var socket = io();
 
 window.onload = async function () {
   /**Username and room varibles */
   document.getElementById("typemsg").focus();
   var username = document.getElementById("username").value;
+  console.log(username);
   var room = document.getElementById("room").value;
 
   /*************
