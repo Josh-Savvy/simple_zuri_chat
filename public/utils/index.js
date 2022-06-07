@@ -39,6 +39,9 @@ window.onload = async function () {
     const div = document.createElement("div");
     div.classList.add(
       "adminText",
+      "justify-center",
+      "flex",
+      "grid",
       "text-center",
       "break-words",
       "mx-4",
@@ -46,7 +49,7 @@ window.onload = async function () {
       "p-2",
       "rounded-lg"
     );
-    div.innerHTML = message;
+    div.innerHTML = `<span class="font-semibold">${message}</span> `;
     document.querySelector("#chat-wrapper").appendChild(div);
   });
 
@@ -107,7 +110,7 @@ window.onload = async function () {
 
   if (checkOtherPrevMsgs) {
     checkOtherPrevMsgs.then((result) => {
-      if (result[0].room && result[0].room === room) {
+      if (result) {
         result.map((message, i) => {
           const otherMsgDiv = document.createElement("div");
           otherMsgDiv.classList.add(
@@ -145,8 +148,8 @@ window.onload = async function () {
       socket.emit("myMessage", newMsgValue);
       msg.value = "";
       msg.focus();
-      const box = document.getElementById("chat-wrapper");
-      box.scrollTop += box.scrollHeight;
+      const box = document.body;
+      box.scrollTop = box.scrollHeight;
     }
   });
 

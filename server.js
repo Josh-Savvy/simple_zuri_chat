@@ -45,7 +45,13 @@ io.on("connection", (socket) => {
 
     socket.join(user.room);
 
-    socket.emit("adminMessage", `📢 Hi ${username.toUpperCase()}, Welcome.`);
+    socket.emit(
+      "adminMessage",
+      `📢 Hi ${username.toUpperCase()}, Welcome here.
+      <br/>
+      <br/>
+ <span class="mt-2 bg-zinc-800 text-white rounded-lg px-4 py-1">Today</span>`
+    );
 
     socket.broadcast
       .to(user.room)
