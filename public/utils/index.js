@@ -57,12 +57,12 @@ window.onload = async function () {
    * Initiaze and save user data to localStorage
    */
 
-  localStorage.setItem(
+  window.localStorage.setItem(
     "zuriUser",
     JSON.stringify({ username: username, room: room, exp: "" })
   );
 
-  const user = JSON.parse(localStorage.getItem("zuriUser"));
+  const user = JSON.parse(window.localStorage.getItem("zuriUser"));
   username = user.username;
   room = user.room;
 
