@@ -55,6 +55,7 @@ window.onload = async function () {
     "zuriUser",
     JSON.stringify({ username: username, room: room, exp: "" })
   );
+
   const user = JSON.parse(localStorage.getItem("zuriUser"));
   username = user.username;
   room = user.room;
