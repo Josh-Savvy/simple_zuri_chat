@@ -4,7 +4,6 @@ const path = require("path");
 const http = require("http");
 const socket = require("socket.io");
 const {
-  formatMessage,
   userJoin,
   getRoomUsers,
   userLeave,
