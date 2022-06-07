@@ -45,6 +45,10 @@ io.on("connection", (socket) => {
 
     socket.join(user.room);
 
+    io.to(user.room).emit("roomUsers", {
+      users: getRoomUsers(user.room),
+    });
+
     socket.emit(
       "adminMessage",
       `📢 Hi ${username.toUpperCase()}, Welcome here.
@@ -75,6 +79,10 @@ io.on("connection", (socket) => {
     if (user) {
       io.to(user.room).emit("adminMessage", `📢 ${user.username} left`);
       console.log("A user has disconnected");
+      io.to(user.room).emit("roomUsers", {
+        room: user.room,
+        users: getRoomUsers(user.room),
+      });
     }
   });
 });

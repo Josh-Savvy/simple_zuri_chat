@@ -35,6 +35,11 @@ window.onload = async function () {
 
   socket.emit("join", { username, room });
 
+  socket.on("roomUsers", ({ room, users }) => {
+    const userList = document.getElementById("roomUsers");
+    userList.innerHTML = users.length;
+  });
+
   socket.on("adminMessage", (message) => {
     const div = document.createElement("div");
     div.classList.add(
